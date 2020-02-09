@@ -1,0 +1,54 @@
+<mat-vertical-stepper #stepper>>
+    <mat-step label="Laundry Type">
+      <button mat-flat-button matStepperPrevious>Back</button>
+      <button mat-raised-button color="primary" matStepperNext>Next</button>
+    </mat-step>
+    <mat-step label="Detergent">
+      <button mat-flat-button matStepperPrevious>Back</button>
+      <button mat-raised-button color="primary" matStepperNext>Next</button>
+    </mat-step>
+    <mat-step label="Special Items">
+      <button mat-flat-button matStepperPrevious>Back</button>
+      <button mat-raised-button color="primary" matStepperNext>Next</button>
+    </mat-step>
+    <mat-step label="Special Instructions">
+      <button mat-flat-button matStepperPrevious>Back</button>
+      <button mat-raised-button color="primary" matStepperNext>Next</button>
+    </mat-step>
+    <mat-step label="Photo (optional)">
+      <button mat-flat-button matStepperPrevious>Back</button>
+      <button mat-raised-button color="primary" matStepperNext>Next</button>
+    </mat-step>
+    <mat-step label="Done">
+    </mat-step>
+</mat-vertical-stepper>
+
+<mat-expansion-panel [expanded]='!spinnerSelected'>
+  <mat-expansion-panel-header>
+    <mat-panel-title><div *ngIf="!spinnerSelected else spinnerExpansionTitle">
+      Choose your drop-off location...
+    </div></mat-panel-title>
+  </mat-expansion-panel-header>
+  <agm-map [latitude]='latitude' [longitude]='longitude' [mapTypeId]='mapType'>
+    <agm-marker *ngFor="let spinner of spinners" [latitude]="spinner.lat" [longitude]="spinner.lng"
+      [iconUrl]="{
+        url: './assets/avatar-png-1.png',
+        scaledSize: {
+            width: 40,
+            height: 40
+        }
+      }">
+      <agm-info-window>
+        <b>{{spinner.name}}</b> <ul></ul>
+        Rating: {{spinner.rating}} / 5
+        <button mat-flat-button (click)="selectSpinner(spinner)">Go</button>
+      </agm-info-window>
+    </agm-marker>
+  </agm-map>
+</mat-expansion-panel>
+
+<button mat-raised-button color="accent">Review and Pay</button>
+
+<ng-template #spinnerExpansionTitle>
+  <b>{{selectedSpinner.name}}</b>
+</ng-template>
